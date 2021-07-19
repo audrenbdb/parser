@@ -22,8 +22,9 @@ func getParamsValues(v valGetter, params ...string) map[string]string {
 	return pval
 }
 
-func newB64ParamsEncoder(paramsEncoder paramsEncoder, encodeRawURL rawURLEncoder) b64ParamsEncoder {
+func newB64ParamsEncoder(newParamsEncoder func() paramsEncoder, encodeRawURL rawURLEncoder) b64ParamsEncoder {
 	return func(params map[string]string) string {
+		paramsEncoder := newParamsEncoder()
 		for k, v := range params {
 			paramsEncoder.Set(k, v)
 		}

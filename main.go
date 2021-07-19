@@ -15,6 +15,9 @@ func New() parser {
 	urlParser := newUrlParser()
 	return parser{
 		GetB64URLParams: newb64URLParamsGetter(b64URLDecoder, urlParser),
+		EncodeB64Params: newB64ParamsEncoder(func() paramsEncoder{
+			return url.Values{}
+		}, base64.RawURLEncoding.EncodeToString),
 	}
 }
 
