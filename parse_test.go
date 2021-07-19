@@ -1,8 +1,10 @@
 package parser
 
 import (
+	"encoding/base64"
 	"errors"
 	"github.com/stretchr/testify/assert"
+	"net/url"
 	"testing"
 )
 
@@ -71,6 +73,29 @@ func TestGetBase64URLParams(t *testing.T) {
 		assert.Equal(t, test.err, err, test.description)
 		assert.Equal(t, test.paramsOut, params, test.description)
 	}
+}
+
+func TestEncodeParams(t *testing.T) {
+	tests := []struct {
+		description string
+
+		inParams map[string]string
+
+		encodedParams string
+	}{
+		{
+			description: "should fail to encode params",
+			inParams: map[string]string{"host":"1234"},
+			encodedParams: "aG9zdD0xMjM0",
+		},
+	}
+
+	for _, test := range tests {
+		encode := newB64ParamsEncoder(url.Values{}, base64.RawURLEncoding.EncodeToString)
+		encodedParams := encode(test.inParams)
+		assert.Equal(t, test.encodedParams, encodedParams, test.description)
+	}
+
 }
 
 type mockValGetter struct {

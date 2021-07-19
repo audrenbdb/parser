@@ -7,6 +7,7 @@ import (
 
 type parser struct {
 	GetB64URLParams b64URLParamsGetter
+	EncodeB64Params b64ParamsEncoder
 }
 
 func New() parser {
