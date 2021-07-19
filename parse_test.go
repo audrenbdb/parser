@@ -91,7 +91,7 @@ func TestEncodeParams(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		encode := newB64ParamsEncoder(url.Values{}, base64.RawURLEncoding.EncodeToString)
+		encode := newB64ParamsEncoder(func() paramsEncoder{return url.Values{}}, base64.RawURLEncoding.EncodeToString)
 		encodedParams := encode(test.inParams)
 		assert.Equal(t, test.encodedParams, encodedParams, test.description)
 	}
